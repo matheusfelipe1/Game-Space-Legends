@@ -18,7 +18,7 @@ class _LoginScreenState extends State<LoginScreen>
     // TODO: implement initState
     super.initState();
     _controller = TabController(initialIndex: 0, length: 2, vsync: this);
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Future.delayed(const Duration(milliseconds: 500), () {
         if (mounted) {
           setState(() {

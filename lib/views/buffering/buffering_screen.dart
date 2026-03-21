@@ -18,8 +18,9 @@ class _BufferingScreenState extends State<BufferingScreen> {
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
     ]);
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      Future.delayed(const Duration(milliseconds: 1500), () => Modular.to.pushReplacementNamed('/game/'));
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Future.delayed(const Duration(milliseconds: 1500),
+          () => Modular.to.pushReplacementNamed('/game/'));
     });
   }
 
@@ -39,10 +40,10 @@ class _BufferingScreenState extends State<BufferingScreen> {
             height: size.height,
             decoration: BoxDecoration(color: Colors.black.withOpacity(0.85)),
           ),
-          Center(
+          const Center(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
+              children: [
                 Text(
                   'Loading...',
                   style: TextStyle(color: Colors.white, fontSize: 25),

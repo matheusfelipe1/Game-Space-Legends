@@ -29,7 +29,7 @@ class _CubeWidgetState extends State<CubeWidget> {
     _blocSpaceShip.space.obj!.transform
       ..setEntry(3, 2, 0.01)
       ..rotateX(-0.7);
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _getMyPosition();
     });
   }

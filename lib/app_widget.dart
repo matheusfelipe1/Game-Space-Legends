@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:space_legends/views/plan/provider_controller.dart';
 
 class AppWidget extends StatelessWidget {
+  const AppWidget({Key? key}) : super(key: key);
+
   
   @override
   Widget build(BuildContext context){

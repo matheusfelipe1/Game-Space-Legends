@@ -29,7 +29,7 @@ class _EnimeObjState extends State<EnimeObj> {
     periodic =
         Stream<void>.periodic(const Duration(milliseconds: 100), (timer) {})
             .takeWhile((element) => true);
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _bloCEnimies.enimies.obj =
           Object(fileName: 'assets/cube/Low_poly_UFO.obj');
       _listeningRotation();

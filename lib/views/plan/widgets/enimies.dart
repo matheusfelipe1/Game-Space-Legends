@@ -33,7 +33,7 @@ class _EnimiesState extends State<Enimies> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _listeningShots();
       _randomPosition();
       periodic =

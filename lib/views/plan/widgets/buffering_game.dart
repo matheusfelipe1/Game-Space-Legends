@@ -7,10 +7,10 @@ class BufferingGame extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black.withOpacity(0.7),
-      body: Center(
+      body: const Center(
           child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
+        children: [
           SizedBox(
             height: 28,
             width: 28,

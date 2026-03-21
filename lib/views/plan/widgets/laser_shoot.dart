@@ -5,15 +5,15 @@ import 'package:space_legends/shared/models/spaceship.dart';
 import '../../../blocs/spaceship_bloc/spaceship_bloc.dart';
 
 class LaseShoot extends StatefulWidget {
-  double eixoX;
-  double height;
-  double aimPosition;
-  LaseShoot(
-      {Key? key,
-      required this.eixoX,
-      required this.height,
-      required this.aimPosition})
-      : super(key: key);
+  final double eixoX;
+  final double height;
+  final double aimPosition;
+  const LaseShoot({
+    Key? key,
+    required this.eixoX,
+    required this.height,
+    required this.aimPosition,
+  }) : super(key: key);
 
   @override
   State<LaseShoot> createState() => _LaseShootState();
@@ -27,8 +27,7 @@ class _LaseShootState extends State<LaseShoot> {
     return StreamBuilder<SpaceShipModel>(
         stream: _blocSpaceShip.stream,
         builder: (context, snapshot) {
-          bool showShot =
-              snapshot.data == null ? false : snapshot.data!.iShot!;
+          bool showShot = snapshot.data == null ? false : snapshot.data!.iShot!;
           return AnimatedOpacity(
             opacity: showShot ? 1.0 : 0.0,
             duration: const Duration(milliseconds: 700),

@@ -2,8 +2,8 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
 class CameraScene extends StatefulWidget {
-  List<CameraDescription> cameras;
-  CameraScene({ Key? key, required this.cameras}) : super(key: key);
+  final List<CameraDescription> cameras;
+  const CameraScene({Key? key, required this.cameras}) : super(key: key);
 
   @override
   State<CameraScene> createState() => _CameraSceneState();
@@ -23,6 +23,7 @@ class _CameraSceneState extends State<CameraScene> {
       setState(() {});
     });
   }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:space_legends/blocs/combat_bloc/combat_bloC.dart';
 import 'package:space_legends/blocs/enimies_bloc/enimies_bloC.dart';
@@ -32,7 +31,7 @@ class _PlaScreenState extends State<PlaScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final audio = AudioPlayer();
       audio.play(AssetSource('images/epic.wav'));
       _blocCombat.newCompleter;

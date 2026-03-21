@@ -1,28 +1,23 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:space_legends/shared/middleware/constants.dart';
 import 'package:space_legends/views/plan/widgets/stars.dart';
 
-import '../../../blocs/spaceship_bloc/spaceship_bloc.dart';
-
 class GenerateSTARS extends StatefulWidget {
-  List<Offset> offsets;
-  GenerateSTARS({Key? key, required this.offsets}) : super(key: key);
+  final List<Offset> offsets;
+  const GenerateSTARS({Key? key, required this.offsets}) : super(key: key);
 
   @override
   State<GenerateSTARS> createState() => _GenerateSTARSState();
 }
 
 class _GenerateSTARSState extends State<GenerateSTARS> {
-  final _spaceShipBloC = Modular.get<SpaceShipBloC>();
   List<Offset> offsets = [];
   List<Offset> offsetsAnimations = [];
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     generatePositionStars();
   }
@@ -81,7 +76,7 @@ class _GenerateSTARSState extends State<GenerateSTARS> {
   }
 
   animationOffsets() {
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (widget.offsets.isNotEmpty) {
         List<Offset> offsetsAnimations = [];
         for (var item in offsets) {

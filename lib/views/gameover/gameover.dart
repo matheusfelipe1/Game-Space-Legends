@@ -32,7 +32,7 @@ class _GameOverScreenState extends State<GameOverScreen> {
           ),
           ElevatedButton(
               style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
+                  backgroundColor: WidgetStateProperty.all(
                      const Color.fromARGB(255, 201, 56, 45))),
               onPressed: () => Modular.to.pushReplacementNamed('/game/'),
               child: const Text('Try again',
