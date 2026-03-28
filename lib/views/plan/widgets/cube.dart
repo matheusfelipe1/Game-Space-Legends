@@ -22,10 +22,10 @@ class _CubeWidgetState extends State<CubeWidget> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    _blocSpaceShip.space.obj =
-        Object(fileName: 'assets/cube/Intergalactic_Spaceship-(Wavefront).obj');
+    _blocSpaceShip.space.obj = Object(
+      fileName: 'assets/cube/Intergalactic_Spaceship-(Wavefront).obj',
+    );
     _blocSpaceShip.space.obj!.transform
       ..setEntry(3, 2, 0.01)
       ..rotateX(-0.7);
@@ -37,8 +37,8 @@ class _CubeWidgetState extends State<CubeWidget> {
   @override
   void deactivate() {
     // TODO: implement deactivate
-    super.deactivate();
     _subs.cancel();
+    super.deactivate();
     // timer.cancel();
   }
 

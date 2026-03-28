@@ -62,8 +62,9 @@ class SpaceShipBloC {
     cachedOrientation.horizontalCached = 0.0;
     cachedOrientation.vertical = 0.0;
     cachedOrientation.verticalCached = 0.0;
-    space.obj =
-        Object(fileName: 'assets/cube/Intergalactic_Spaceship-(Wavefront).obj');
+    space.obj = Object(
+      fileName: 'assets/cube/Intergalactic_Spaceship-(Wavefront).obj',
+    );
     space.vida = [];
     space.escudo = [];
     for (var i = 0; i < Constants.maxVida; i++) {
@@ -86,18 +87,28 @@ class SpaceShipBloC {
 
   listening() {
     accelerometerEvents.listen((event) {
-      double eixoZ = (((event.y * pi) / 180) * .7);
+      final axisY = event.y;
+
+      double anguloDesejado = (axisY * 0.1);
+
+      double limiteRad = 0.785;
+      double eixoZ = anguloDesejado.clamp(-limiteRad, limiteRad);
+
       space.obj!.transform
+        ..setIdentity()
         ..setEntry(3, 2, 0.01)
         ..rotateZ(eixoZ)
         ..rotateX(0.0)
         ..rotateY(0.0);
-      space.obj!.rotation.setZero();
+
       space.obj!.rotation.setValues(0.0, 0.0, eixoZ);
+
       OrientationModel orientationModel = OrientationModel();
-      cachedOrientation.horizontalCached =
-          space.obj!.transform.getRotation()[1];
-      cachedOrientation.horizontal = space.obj!.transform.getRotation()[1];
+      double currentRot = space.obj!.transform.getRotation()[1];
+
+      cachedOrientation.horizontalCached = currentRot;
+      cachedOrientation.horizontal = currentRot;
+
       orientationModel = cachedOrientation;
       _streamOrientation.sink.add(orientationModel);
     });
@@ -137,17 +148,16 @@ class SpaceShipBloC {
         space.showShield = false;
         Future.delayed(const Duration(seconds: 7), () => restartShield());
       }
-      _inputSpaceShipController.sink
-          .add(SpaceShipRaiseShields(spaceShipModel: space));
+      _inputSpaceShipController.sink.add(
+        SpaceShipRaiseShields(spaceShipModel: space),
+      );
     }
     _soundShot();
   }
 
-
   _soundShot() {
     final play = AudioPlayer();
-    play
-        .play(AssetSource('images/shot_by_enimy.mp3'));
+    play.play(AssetSource('images/shot_by_enimy.mp3'));
   }
 
   raisedShield() {
@@ -169,8 +179,9 @@ class SpaceShipBloC {
       }
     }
     space.showShield = !space.showShield!;
-    _inputSpaceShipController.sink
-        .add(SpaceShipRaiseShields(spaceShipModel: space));
+    _inputSpaceShipController.sink.add(
+      SpaceShipRaiseShields(spaceShipModel: space),
+    );
   }
 
   moveUpOrDown(double y) {
@@ -226,7 +237,8 @@ class SpaceShipBloC {
     }
     space.qttEscudo = 230 / space.escudo!.length;
     space.escudoAtual = 230;
-    _inputSpaceShipController.sink
-        .add(SpaceShipRaiseShields(spaceShipModel: space));
+    _inputSpaceShipController.sink.add(
+      SpaceShipRaiseShields(spaceShipModel: space),
+    );
   }
 }
