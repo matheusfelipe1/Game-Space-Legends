@@ -36,8 +36,9 @@ class _EnimiesState extends State<Enimies> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _listeningShots();
       _randomPosition();
-      periodic =
-          Stream.periodic(const Duration(seconds: 10), (computationCount) {
+      periodic = Stream.periodic(const Duration(seconds: 10), (
+        computationCount,
+      ) {
         return null;
       }).takeWhile((element) => true);
       _listeningPositions();
@@ -71,50 +72,54 @@ class _EnimiesState extends State<Enimies> {
               width: 200,
               height: 200,
               child: StreamBuilder<OrientationModel>(
-                  key: UniqueKey(),
-                  stream: _bloCEnimies.outputOrientation,
-                  builder: (context, snapshot) {
-                    double eixoX = snapshot.data == null
-                        ? 1.0
-                        : snapshot.data!.horizontal!;
-                    enimyOffset = Offset(eixoX, 0.0);
-                    return AnimatedContainer(
-                      duration: const Duration(milliseconds: 1000),
-                      curve: Curves.easeInOut,
-                      transform: Matrix4.identity()
-                        ..setEntry(3, 2, 0.01)
-                        ..translate(eixoX, 0.0),
-                      child: const EnimeObj(),
-                    );
-                  }),
+                key: UniqueKey(),
+                stream: _bloCEnimies.outputOrientation,
+                builder: (context, snapshot) {
+                  double eixoX = snapshot.data == null
+                      ? 1.0
+                      : snapshot.data!.horizontal;
+                  enimyOffset = Offset(eixoX, 0.0);
+                  return AnimatedContainer(
+                    duration: const Duration(milliseconds: 1000),
+                    curve: Curves.easeInOut,
+                    transform: Matrix4.identity()
+                      ..setEntry(3, 2, 0.01)
+                      ..translate(eixoX, 0.0),
+                    child: const EnimeObj(),
+                  );
+                },
+              ),
             ),
           ),
           StreamBuilder<CombatModel>(
-              key: UniqueKey(),
-              stream: _bloCCombat.outShotsputCombat,
-              builder: (context, snapshot) {
-                double x = snapshot.data == null
-                    ? 1.0
-                    : snapshot.data!.myCoordinates!.dx;
-                double y = snapshot.data == null
-                    ? 1.0
-                    : snapshot.data!.myCoordinates!.dy;
-                bool fromMe =
-                    snapshot.data == null ? false : snapshot.data!.fromMe!;
-                return AnimatedOpacity(
-                  duration: const Duration(milliseconds: 50),
-                  opacity: fromMe && _bloCCombat.canShoot ? 1.0 : 0.0,
-                  child: AnimatedContainer(
-                      height: 90,
-                      width: 90,
-                      duration: const Duration(milliseconds: 100),
-                      transform: Matrix4.identity()
-                        ..setEntry(3, 2, 0.01)
-                        ..translate(x, fromMe ? y / 100 : -150.0),
-                      curve: Curves.easeInOut,
-                      child: const EnimiesShot()),
-                );
-              })
+            key: UniqueKey(),
+            stream: _bloCCombat.outShotsputCombat,
+            builder: (context, snapshot) {
+              double x = snapshot.data == null
+                  ? 1.0
+                  : snapshot.data!.myCoordinates!.dx;
+              double y = snapshot.data == null
+                  ? 1.0
+                  : snapshot.data!.myCoordinates!.dy;
+              bool fromMe = snapshot.data == null
+                  ? false
+                  : snapshot.data!.fromMe!;
+              return AnimatedOpacity(
+                duration: const Duration(milliseconds: 50),
+                opacity: fromMe && _bloCCombat.canShoot ? 1.0 : 0.0,
+                child: AnimatedContainer(
+                  height: 90,
+                  width: 90,
+                  duration: const Duration(milliseconds: 100),
+                  transform: Matrix4.identity()
+                    ..setEntry(3, 2, 0.01)
+                    ..translate(x, fromMe ? y / 100 : -150.0),
+                  curve: Curves.easeInOut,
+                  child: const EnimiesShot(),
+                ),
+              );
+            },
+          ),
         ],
       ),
     );
@@ -135,8 +140,10 @@ class _EnimiesState extends State<Enimies> {
         canProgress = _verifyAlreadyVisited(valueEixoX, positionCached);
       }
       positionCached = valueEixoX;
-      OrientationModel orientationModel =
-          OrientationModel(horizontal: valueEixoX, vertical: 1.0);
+      OrientationModel orientationModel = OrientationModel(
+        horizontal: valueEixoX,
+        vertical: 1.0,
+      );
       _bloCEnimies.inputOrientation.add(orientationModel);
     }
   }
@@ -151,8 +158,10 @@ class _EnimiesState extends State<Enimies> {
   _listeningShots() {
     _bloCCombat.outputIshotOffset.listen((event) {
       if (enimyOffset != null) {
-        X1Model x1 =
-            X1Model(myCoordinates: event, enimyCoordinates: enimyOffset);
+        X1Model x1 = X1Model(
+          myCoordinates: event,
+          enimyCoordinates: enimyOffset,
+        );
         _bloCCombat.inputIshotX1.add(x1);
       }
     });

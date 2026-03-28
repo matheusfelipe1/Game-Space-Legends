@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/services.dart';
@@ -13,7 +12,7 @@ import '../../shared/middleware/constants.dart';
 class SpaceShipBloC {
   SpaceShipModel space = SpaceShipModel();
   final AudioPlayer audio = AudioPlayer();
-  final OrientationModel cachedOrientation = OrientationModel();
+  OrientationModel cachedOrientation = OrientationModel();
   final StreamController<SpaceShipEvent> _inputSpaceShipController =
       StreamController<SpaceShipEvent>();
   final StreamController<SpaceShipModel> _outputSpaceShipController =
@@ -58,10 +57,7 @@ class SpaceShipBloC {
     audio.setSourceAsset('images/shot3.mp3');
     space.showShield = false;
     space.iShot = false;
-    cachedOrientation.horizontal = 0.0;
-    cachedOrientation.horizontalCached = 0.0;
-    cachedOrientation.vertical = 0.0;
-    cachedOrientation.verticalCached = 0.0;
+    cachedOrientation = OrientationModel();
     space.obj = Object(
       fileName: 'assets/cube/Intergalactic_Spaceship-(Wavefront).obj',
     );
@@ -106,8 +102,10 @@ class SpaceShipBloC {
       OrientationModel orientationModel = OrientationModel();
       double currentRot = space.obj!.transform.getRotation()[1];
 
-      cachedOrientation.horizontalCached = currentRot;
-      cachedOrientation.horizontal = currentRot;
+      cachedOrientation = cachedOrientation.copyWith(
+        horizontal: currentRot,
+        horizontalCached: currentRot,
+      );
 
       orientationModel = cachedOrientation;
       _streamOrientation.sink.add(orientationModel);
@@ -186,8 +184,10 @@ class SpaceShipBloC {
 
   moveUpOrDown(double y) {
     OrientationModel orientationModel = OrientationModel();
-    cachedOrientation.vertical = y;
-    cachedOrientation.verticalCached = y;
+    cachedOrientation = cachedOrientation.copyWith(
+      vertical: y,
+      verticalCached: y,
+    );
     orientationModel = cachedOrientation;
     _streamOrientation.sink.add(orientationModel);
   }

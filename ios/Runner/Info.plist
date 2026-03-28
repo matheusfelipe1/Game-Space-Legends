@@ -51,5 +51,11 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<!-- <key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/> -->
+	<key>NSMotionUsageDescription</key>
+	<string>Precisamos do acelerômetro para você controlar a nave inclinando o celular.</string>
 </dict>
 </plist>

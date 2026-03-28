@@ -24,30 +24,36 @@ class _LaseShootState extends State<LaseShoot> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return StreamBuilder<SpaceShipModel>(
+    return AnimatedContainer(
+      transform: Matrix4.identity()
+        ..setEntry(3, 2, 0.01)
+        ..translate(widget.eixoX, widget.height),
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.fastOutSlowIn,
+      child: StreamBuilder<SpaceShipModel>(
         stream: _blocSpaceShip.stream,
         builder: (context, snapshot) {
-          bool showShot = snapshot.data == null ? false : snapshot.data!.iShot!;
+          final showShot = snapshot.data == null
+              ? false
+              : snapshot.data!.iShot!;
           return AnimatedOpacity(
             opacity: showShot ? 1.0 : 0.0,
             duration: const Duration(milliseconds: 700),
             child: Container(
-              key: UniqueKey(),
               margin: EdgeInsets.only(right: size.width * .0169),
               child: Center(
-                key: UniqueKey(),
                 child: AnimatedContainer(
-                  key: UniqueKey(),
                   duration: const Duration(milliseconds: 100),
                   transform: Matrix4.identity()
                     ..setEntry(3, 2, 0.001)
                     ..translate(
-                        widget.eixoX == 1.0
-                            ? (widget.eixoX * 270.0)
-                            : widget.eixoX == 200.0
-                                ? widget.eixoX * 1.35
-                                : widget.eixoX * -1.34,
-                        0.0),
+                      widget.eixoX == 1.0
+                          ? (widget.eixoX * 270.0)
+                          : widget.eixoX == 200.0
+                          ? widget.eixoX * 1.35
+                          : widget.eixoX * -1.34,
+                      0.0,
+                    ),
                   child: Row(
                     key: UniqueKey(),
                     children: [
@@ -57,12 +63,13 @@ class _LaseShootState extends State<LaseShoot> {
                         transform: Matrix4.identity()
                           ..setEntry(3, 2, 0.001)
                           ..translate(
-                              widget.height == -60.0 ? -0.1 : 1.0,
-                              showShot
-                                  ? widget.aimPosition * 3.5
-                                  : widget.height == -60.0
-                                      ? 30
-                                      : 50)
+                            widget.height == -60.0 ? -0.1 : 1.0,
+                            showShot
+                                ? widget.aimPosition * 3.5
+                                : widget.height == -60.0
+                                ? 30
+                                : 50,
+                          )
                           ..rotateZ(0.1),
                         child: CustomPaint(
                           painter: MyPainter(widget.height),
@@ -70,12 +77,13 @@ class _LaseShootState extends State<LaseShoot> {
                         ),
                       ),
                       AnimatedContainer(
-                          duration: const Duration(milliseconds: 500),
-                          width: !showShot
-                              ? widget.height != 60.0
+                        duration: const Duration(milliseconds: 500),
+                        width: !showShot
+                            ? widget.height != 60.0
                                   ? 0
                                   : 30
-                              : 0),
+                            : 0,
+                      ),
                       Container(
                         margin: EdgeInsets.only(top: size.width * .010),
                         child: AnimatedContainer(
@@ -84,12 +92,13 @@ class _LaseShootState extends State<LaseShoot> {
                           transform: Matrix4.identity()
                             ..setEntry(3, 2, 0.001)
                             ..translate(
-                                1.0,
-                                showShot
-                                    ? widget.aimPosition * 3.5
-                                    : widget.height == -60.0
-                                        ? -5
-                                        : 50)
+                              1.0,
+                              showShot
+                                  ? widget.aimPosition * 3.5
+                                  : widget.height == -60.0
+                                  ? -5
+                                  : 50,
+                            )
                             ..rotateZ(-0.1),
                           child: CustomPaint(
                             painter: MyPainter(widget.height),
@@ -103,7 +112,9 @@ class _LaseShootState extends State<LaseShoot> {
               ),
             ),
           );
-        });
+        },
+      ),
+    );
   }
 }
 
@@ -115,16 +126,17 @@ class MyPainter extends CustomPainter {
     // TODO: implement paint
     Paint paint = Paint()
       ..shader = height == -60
-          ? const RadialGradient(colors: [
-              Colors.yellow,
-              Colors.transparent,
-            ]).createShader(
-              Rect.fromCircle(center: const Offset(18, 5), radius: 18))
+          ? const RadialGradient(
+              colors: [Colors.yellow, Colors.transparent],
+            ).createShader(
+              Rect.fromCircle(center: const Offset(18, 5), radius: 18),
+            )
           : const LinearGradient(
               begin: Alignment(0, 0),
               end: Alignment(5, 0),
               colors: [
                 Colors.transparent,
+                Colors.red,
                 Colors.red,
                 Colors.transparent,
               ],
@@ -132,10 +144,13 @@ class MyPainter extends CustomPainter {
     height == -60
         ? canvas.drawCircle(const Offset(18, 5), 10, paint)
         : canvas.drawRect(
-            Rect.fromPoints(const Offset(0, 0), const Offset(50, 20)
-                // height == -60.0 ? (height * -1) * 1.5 : 200)
-                ),
-            paint);
+            Rect.fromPoints(
+              const Offset(0, 0),
+              const Offset(50, 20),
+              // height == -60.0 ? (height * -1) * 1.5 : 200)
+            ),
+            paint,
+          );
   }
 
   @override

@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+
 import 'package:space_legends/shared/middleware/constants.dart';
 import 'package:space_legends/views/plan/widgets/stars.dart';
 
@@ -68,11 +68,8 @@ class _GenerateSTARSState extends State<GenerateSTARS> {
   }
 
   calculateCoordinates(double startX, double startY, double endX, double endY) {
-    final teste = Geolocator.distanceBetween(startX, startY, endX, endY);
-    if (teste <= Constants.neighborhood) {
-      return false;
-    }
-    return true;
+    final distance = (Offset(startX, startY) - Offset(endX, endY)).distance;
+    return distance > Constants.neighborhood;
   }
 
   animationOffsets() {
@@ -80,18 +77,17 @@ class _GenerateSTARSState extends State<GenerateSTARS> {
       if (widget.offsets.isNotEmpty) {
         List<Offset> offsetsAnimations = [];
         for (var item in offsets) {
-          List<double> returned = [];
-          List<double> returnedCached = [];
+          double maxDistance = -1.0;
+          Offset bestMatch = Offset.zero;
+          
           for (var data in widget.offsets) {
-            final value =
-                Geolocator.distanceBetween(item.dx, item.dy, data.dx, data.dy);
-            returned.add(value);
-            returnedCached.add(value);
+            final distance = (item - data).distance;
+            if (distance > maxDistance) {
+              maxDistance = distance;
+              bestMatch = data;
+            }
           }
-          returned.sort((a, b) => a < b ? 1 : -1);
-          final element = returned.first;
-          final int index = returnedCached.indexOf(element);
-          offsetsAnimations.add(widget.offsets[index]);
+          offsetsAnimations.add(bestMatch);
         }
         this.offsetsAnimations = offsetsAnimations;
       }

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:geolocator/geolocator.dart';
+
 import 'package:space_legends/blocs/combat_bloc/combat_event.dart';
 import 'package:space_legends/blocs/enimies_bloc/enimies_bloC.dart';
 import 'package:space_legends/blocs/spaceship_bloc/spaceship_bloc.dart';
@@ -112,15 +112,15 @@ class CombatBloC {
     if (!killed) {
       Offset start = x1Model.myCoordinates!;
       Offset end = x1Model.enimyCoordinates!;
-      double radius =
-          (Geolocator.distanceBetween(start.dx, start.dx, end.dx, end.dx) /
-              100000);
-      if (radius == 0.0) {
+      double distance = (start - end).distance;
+      bool isHit = distance <= 50.0; // Tolerance for hit
+      
+      if (isHit) {
         canShoot = true;
         scores += Constants.score;
       }
-      inputIHit.add(radius == 0.0);
-      _enimiesBloC.inputHit.add(radius == 0.0);
+      inputIHit.add(isHit);
+      _enimiesBloC.inputHit.add(isHit);
     }
   }
 

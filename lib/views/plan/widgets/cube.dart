@@ -7,7 +7,10 @@ import 'package:space_legends/blocs/combat_bloc/combat_bloC.dart';
 import 'package:space_legends/blocs/spaceship_bloc/spaceship_bloc.dart';
 
 class CubeWidget extends StatefulWidget {
-  const CubeWidget({Key? key}) : super(key: key);
+  final double eixoX;
+  final double eixoY;
+  const CubeWidget({Key? key, required this.eixoX, required this.eixoY})
+    : super(key: key);
 
   @override
   State<CubeWidget> createState() => _CubeWidgetState();
@@ -44,8 +47,12 @@ class _CubeWidgetState extends State<CubeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      key: UniqueKey(),
+    return AnimatedContainer(
+      transform: Matrix4.identity()
+        ..setEntry(3, 2, 0.01)
+        ..translate(widget.eixoX, widget.eixoY),
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.fastOutSlowIn,
       child: Cube(
         key: _key,
         interactive: false,
